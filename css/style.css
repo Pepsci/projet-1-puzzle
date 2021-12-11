@@ -1,0 +1,39 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  /* position: relative; */
+  height: 100vh;
+}
+
+.puzzle-container {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  /* --parentHeight: 400px;
+  --parentWidth: 400px;
+  height: var(--parentHeight);
+  width: var(--parentWidth); */
+  height: 400px;
+  width: 400px;
+  border: 2px solid black;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.block {
+  /* height: calc((var(--parentHeight) / 3) - 8px); */
+  /* width: calc((var(--parentWidth) / 3) - 8px); */
+  width: calc((100% / 4) - 8px);
+  height: calc((100% / 4) - 8px);
+  border: 2px solid green;
+  margin: auto;
+}
+
+.block-0 {
+  visibility: hidden;
+}
