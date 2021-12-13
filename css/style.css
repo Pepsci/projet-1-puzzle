@@ -29,8 +29,8 @@ body {
 }
 
 .block {
-  width: var(--size-puzzle-4  );
-  height: var(--size-puzzle-4);
+  /* width: var(--size-puzzle-4);
+  height: var(--size-puzzle-4); */
   border: 2px solid green;
   margin: auto;
 }
@@ -39,18 +39,18 @@ body {
   visibility: hidden;
 }
 
-nav{
+nav {
   height: 100px;
 }
 
-nav ul{
-  position:relative;
+nav ul {
+  position: relative;
   display: flex;
   justify-content: center;
   top: 5rem;
 }
 
-nav ul li button{
+nav ul li button {
   width: 40px;
   height: 40px;
   margin: 5px;
