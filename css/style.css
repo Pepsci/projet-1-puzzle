@@ -29,14 +29,16 @@ body {
 }
 
 .block {
-  /* width: var(--size-puzzle-4);
-  height: var(--size-puzzle-4); */
+  background-color: darkgoldenrod;
   border: 2px solid green;
   margin: auto;
+  cursor: pointer;
 }
 
 .block-0 {
-  visibility: hidden;
+  background-color: brown;
+  border: 2px solid green;
+  margin: auto;
 }
 
 nav {
