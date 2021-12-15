@@ -1,94 +1,121 @@
-function generatePuzzle(x){
-    let puzzle = document.querySelector('.puzzle-container');
-         puzzle.innerHTML = "";
-         
-         let random = [];
-         while(random.length < x){
-             let r = Math.floor(Math.random() * x) +1;
-             if(random.indexOf(r) === -1) random.push(r);
-            }
-            
-            for (let i = 0; i < x; i++) {
-                let block = document.createElement('div');
-                let blockText = document.createTextNode(random[i]-1);
-                block.className = `block-${random[i]-1} block`;
-                block.appendChild(blockText);
-                block.setAttribute("draggable", true)
-                block.setAttribute('data-source-id',`block-source-${random[i]-1}`)
-                
-                divSize(block,x)
-                puzzle.appendChild(block);
-            }
+function generatePuzzle(x) {
+  let puzzle = document.querySelector(".puzzle-container");
+  puzzle.innerHTML = "";
+  let block0 = document.createElement("div");
+  block0.className = `block block-0`;
+  block0.setAttribute("draggable", true);
 
-            let block0 = document.querySelector('.block-0')
-            block0.removeAttribute('data-source-id')
-            block0.setAttribute('data-target-id','blockTarget')
-            block0.setAttribute("draggable", false)
+  let blockText0 = document.createTextNode("0");
 
-const blockSource = document.querySelectorAll('.block');
-const blockTarget = document.querySelectorAll('.block-0');
+  divSize(block0, x);
+  block0.appendChild(blockText0);
+  puzzle.appendChild(block0);
 
-console.log(blockSource);
-console.log(blockTarget);
-
-blockSource.forEach(element => {
-    element.addEventListener('dragstart', dragStartHandler);
-    element.addEventListener('dragend', dragEnterHandler);
-});
-
-function dragStartHandler(e){
-    e.dataTransfer.setData('text', e.target.getAttribute('data-source-id'));
-    console.log(e.target);
-}
-
-blockTarget.forEach(element => {
-    element.addEventListener('dragenter', dragEnterHandler);
-    element.addEventListener('dragover', dragOverHandler);
-    element.addEventListener('dragleave', dragLeaveHandler);
-    element.addEventListener('drop', dropHandler);
-});
-
-function dragEnterHandler(e) {
-    console.log('dragEnterHandler running');
+  let random = [];
+  while (random.length < x) {
+    let r = Math.floor(Math.random() * x);
+    if (random.indexOf(r) === -1) random.push(r);
   }
-  function dragOverHandler(e) {
-    console.log('dragOverHandler running');
-    event.preventDefault();
-  }
-  function dragLeaveHandler(e) {
-    console.log('dragLeaveHandler running');
+  for (let i = 0; i < x; i++) {
+    let block = document.createElement("div");
+    let blockText = document.createTextNode(random[i] + 1);
+    block.className = `block`;
+    block.appendChild(blockText);
+    block.setAttribute("draggable", true);
+    divSize(block, x);
+    puzzle.appendChild(block);
   }
 
-  function dropHandler(e) {
-    e.preventDefault();
-    
-    console.log('dropHandler running');
-    
-    const dataSourceId = e.dataTransfer.getData('text'); 
-    const dataTargetId = e.target.getAttribute('data-target-id');
-
-    console.log(dataSourceId);
-    console.log(dataTargetId);
-
-    console.warn(dataSourceId, dataTargetId);
-  if(dataSourceId === dataTargetId) {
-      console.log(document.querySelector([dataTargetId]));
-    //   e.target.insertAdjacentElement('afterbegin', dataSourceId);
-    e.target.appendChild(document.getElementById(dataSourceId));
+  let dragSrcEl = null;
+  function handleDragStart(e) {
+    dragSrcEl = this;
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/html", this.inneHTML);
+    if (dragSrcEl.innerHTML != "0") {
+      dragSrcEl.setAttribute("draggable", "true");
     }
   }
-}
 
-function divSize(div,x){
-    if(x <= 4){
-        div.setAttribute("style","width:var(--size-puzzle-4); height:var(--size-puzzle-4); " );
-    }else if (x > 4 && x <= 9) {
-        div.setAttribute("style","height:var(--size-puzzle-9); width:var(--size-puzzle-9)" );
-    }else if (x > 9){
-        div.setAttribute("style"," width:var(--size-puzzle-16); height:var(--size-puzzle-16)" );
+  function handleDragOver(e) {
+    if (e.preventDefault) {
+      e.preventDefault();
     }
+    e.dataTransfer.dropEffect = "move";
+    if (dragSrcEl.innerHTML != dragSrcEl.innerHTM) {
+      dragSrcEl.removeAttribute("draggable");
+    }
+    console.log(e);
+    return false;
+  }
+
+  function handleDragEnter(e) {
+    if (dragSrcEl.innerHTML != dragSrcEl.innerHTM) {
+      dragSrcEl.removeAttribute("draggable");
+    }
+  }
+
+  function handleDragLeave(e) {
+    this.classList.remove("over");
+    this.className = "block";
+  }
+
+  function handleDrop(e) {
+    if (e.stopPropagation) {
+      e.stopPropagation();
+    }
+
+    if (dragSrcEl != this) {
+      let temp = this.innerHTML;
+      this.innerHTML = dragSrcEl.innerHTML;
+      dragSrcEl.innerHTML = temp;
+
+      if (dragSrcEl.innerHTML === "0") {
+        dragSrcEl.className = "block-0";
+      } else if (dragSrcEl.innerHTML != "0") {
+        dragSrcEl.className = "block";
+      }
+    }
+    return false;
+  }
+
+  function handleDragEnd(e) {
+    [].forEach.call(blocks, function (block) {
+      block.classList.remove("over");
+      if (block.innerHTML != "0") block.className = "block";
+    });
+  }
+
+  let blocks = document.querySelectorAll(".block");
+  console.log(blocks);
+  [].forEach.call(blocks, function (block) {
+    block.addEventListener("dragstart", handleDragStart, false);
+    block.addEventListener("dragenter", handleDragEnter, false);
+    block.addEventListener("dragover", handleDragOver, false);
+    block.addEventListener("dragleave", handleDragLeave, false);
+    block.addEventListener("drop", handleDrop, false);
+    block.addEventListener("dragend", handleDragEnd, false);
+  });
 }
 
-document.querySelectorAll('.btn-choice').forEach(element => {
-    element.addEventListener('click', () => generatePuzzle(element.value))
+function divSize(div, x) {
+  if (x <= 4) {
+    div.setAttribute(
+      "style",
+      "width:var(--size-puzzle-4); height:var(--size-puzzle-4); "
+    );
+  } else if (x > 4 && x <= 9) {
+    div.setAttribute(
+      "style",
+      "height:var(--size-puzzle-9); width:var(--size-puzzle-9)"
+    );
+  } else if (x > 9) {
+    div.setAttribute(
+      "style",
+      " width:var(--size-puzzle-16); height:var(--size-puzzle-16)"
+    );
+  }
+}
+
+document.querySelectorAll(".btn-choice").forEach((element) => {
+  element.addEventListener("click", () => generatePuzzle(element.value));
 });

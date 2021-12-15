@@ -23,7 +23,7 @@ body {
 }
 
 :root {
-  --size-puzzle-4: calc((100% / 2) - 8px);
+  --size-puzzle-4: calc((100% / 2) - 2px);
   --size-puzzle-9: calc((100% / 3) - 8px);
   --size-puzzle-16: calc((100% / 4) - 8px);
 }
@@ -32,13 +32,14 @@ body {
   background-color: darkgoldenrod;
   border: 2px solid green;
   margin: auto;
-  cursor: pointer;
+  cursor: grab;
 }
 
 .block-0 {
   background-color: brown;
   border: 2px solid green;
   margin: auto;
+  /* cursor: none; */
 }
 
 nav {
