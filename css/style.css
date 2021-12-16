@@ -26,6 +26,7 @@ body {
   --size-puzzle-4: calc((100% / 2) - 2px);
   --size-puzzle-9: calc((100% / 3) - 8px);
   --size-puzzle-16: calc((100% / 4) - 8px);
+  --size-puzzle-25: calc((100% / 5) - 8px);
 }
 
 .block {

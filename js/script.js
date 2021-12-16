@@ -29,6 +29,7 @@ function generatePuzzle(x) {
     block.setAttribute("draggable", true);
     divSize(block, x);
     puzzle.appendChild(block);
+    console.log(x);
   }
 
   const blockSource = document.querySelectorAll(".block");
@@ -114,10 +115,13 @@ function divSize(div, x) {
       "style",
       "height:var(--size-puzzle-9); width:var(--size-puzzle-9)"
     );
-  } else if (x > 9) {
+  } else if (x > 9 && x <= 15 ) {
     div.setAttribute(
       "style",
       " width:var(--size-puzzle-16); height:var(--size-puzzle-16)"
+    );
+  } else if (x > 15) {
+    div.setAttribute("style", "width:var(--size-puzzle-25); height:var(--size-puzzle-25)"
     );
   }
 }
