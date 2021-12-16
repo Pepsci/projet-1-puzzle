@@ -44,7 +44,9 @@ body {
 }
 
 nav {
+  position: absolute;
   height: 100px;
+  z-index: 1;
 }
 
 nav ul {
