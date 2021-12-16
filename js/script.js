@@ -2,8 +2,10 @@ function generatePuzzle(x) {
   let puzzle = document.querySelector(".puzzle-container");
   puzzle.innerHTML = "";
   let block0 = document.createElement("div");
-  block0.className = `block block-0`;
+  block0.className = `blockCible`;
+  block0.setAttribute('id', 'block-0')
   block0.setAttribute("draggable", true);
+  block0.setAttribute("data-target-id", "target");
 
   let blockText0 = document.createTextNode("0");
 
@@ -20,82 +22,78 @@ function generatePuzzle(x) {
     let block = document.createElement("div");
     let blockText = document.createTextNode(random[i] + 1);
     block.className = `block`;
+    // block.setAttribute("id", `block-${random[i] + 1}`);
+    block.setAttribute("id", "targetBlock");
+    block.setAttribute("data-source-id", `source-${random[i] + 1}`);
     block.appendChild(blockText);
     block.setAttribute("draggable", true);
     divSize(block, x);
     puzzle.appendChild(block);
   }
 
-  let dragSrcEl = null;
-  function handleDragStart(e) {
-    dragSrcEl = this;
-    e.dataTransfer.effectAllowed = "move";
-    e.dataTransfer.setData("text/html", this.inneHTML);
-    if (dragSrcEl.innerHTML != "0") {
-      dragSrcEl.setAttribute("draggable", "true");
-    }
-  }
+  const blockSource = document.querySelectorAll(".block");
+  const blockTarget = document.querySelectorAll(".blockCible");  
 
-  function handleDragOver(e) {
-    if (e.preventDefault) {
-      e.preventDefault();
-    }
-    e.dataTransfer.dropEffect = "move";
-    if (dragSrcEl.innerHTML != dragSrcEl.innerHTM) {
-      dragSrcEl.removeAttribute("draggable");
-    }
-    console.log(e);
-    return false;
-  }
+  console.log(blockSource);
+  console.log(blockTarget);
 
-  function handleDragEnter(e) {
-    if (dragSrcEl.innerHTML != dragSrcEl.innerHTM) {
-      dragSrcEl.removeAttribute("draggable");
-    }
-  }
+blockSource.forEach((el) => {
+  el.addEventListener("dragstart", dragStartHandler);
+  el.addEventListener("dragend", dragEndHandler);
+});
 
-  function handleDragLeave(e) {
-    this.classList.remove("over");
-    this.className = "block";
-  }
-
-  function handleDrop(e) {
-    if (e.stopPropagation) {
-      e.stopPropagation();
-    }
-
-    if (dragSrcEl != this) {
-      let temp = this.innerHTML;
-      this.innerHTML = dragSrcEl.innerHTML;
-      dragSrcEl.innerHTML = temp;
-
-      if (dragSrcEl.innerHTML === "0") {
-        dragSrcEl.className = "block-0";
-      } else if (dragSrcEl.innerHTML != "0") {
-        dragSrcEl.className = "block";
-      }
-    }
-    return false;
-  }
-
-  function handleDragEnd(e) {
-    [].forEach.call(blocks, function (block) {
-      block.classList.remove("over");
-      if (block.innerHTML != "0") block.className = "block";
-    });
-  }
-
-  let blocks = document.querySelectorAll(".block");
-  console.log(blocks);
-  [].forEach.call(blocks, function (block) {
-    block.addEventListener("dragstart", handleDragStart, false);
-    block.addEventListener("dragenter", handleDragEnter, false);
-    block.addEventListener("dragover", handleDragOver, false);
-    block.addEventListener("dragleave", handleDragLeave, false);
-    block.addEventListener("drop", handleDrop, false);
-    block.addEventListener("dragend", handleDragEnd, false);
-  });
+function dragStartHandler(e) {
+  console.log("--------dragStartHandler running");
+  e.dataTransfer.setData("text", e.target.getAttribute("data-source-id"));
+  console.log(e.target);
 }
+
+
+blockTarget.forEach((el) => {
+  el.addEventListener("dragenter", dragEnterHandler);
+  el.addEventListener("dragover", dragOverHandler);
+  el.addEventListener("dragleave", dragLeaveHandler);
+  el.addEventListener("drop", dropHandler);
+});
+
+function dragEnterHandler(e) {
+  console.log("--------dragEnterHandler running");
+}
+
+function dragEndHandler(e) {
+}
+
+function dragOverHandler(e) {
+  console.log("--------dragOverHandler running");
+  e.preventDefault();
+}
+
+function dragLeaveHandler(e) {
+  console.log("--------dragLeaveHandler running");
+}
+
+function dropHandler(e) {
+  e.preventDefault();
+
+  console.log("--------dropHandler running--------");
+  dragLeaveHandler(e); 
+  
+  const dataSourceId = e.dataTransfer.getData('text'); 
+  const dataTargetId = e.target.getAttribute('data-target-id');
+  
+console.log(dataSourceId);
+console.log(dataTargetId);
+console.log(dataSourceId, dataTargetId);
+
+
+    
+
+  console.log("-------- dropHandler End--------");
+
+
+}
+}
+
 
 function divSize(div, x) {
   if (x <= 4) {

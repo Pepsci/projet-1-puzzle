@@ -32,10 +32,11 @@ body {
   background-color: darkgoldenrod;
   border: 2px solid green;
   margin: auto;
-  cursor: grab;
+  cursor: move;
+  user-select: none;
 }
 
-.block-0 {
+#block-0 {
   background-color: brown;
   border: 2px solid green;
   margin: auto;
