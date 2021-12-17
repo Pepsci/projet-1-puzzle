@@ -1,42 +1,44 @@
 function generatePuzzle(x) {
   let puzzle = document.querySelector(".puzzle-container");
   puzzle.innerHTML = "";
+
+  // Création du bloc 0
   let block0 = document.createElement("div");
+  let span0 = document.createElement('span')
   block0.className = `blockCible`;
   block0.setAttribute("id", "block-0");
   block0.setAttribute("draggable", true);
   block0.setAttribute("data-target-id", "target");
 
   let blockText0 = document.createTextNode("0");
-
   divSize(block0, x);
-  block0.appendChild(blockText0);
+  span0.appendChild(blockText0);
+  block0.appendChild(span0)
   puzzle.appendChild(block0);
 
+  // ramdomisation des block
   let random = [];
   while (random.length < x) {
     let r = Math.floor(Math.random() * x);
     if (random.indexOf(r) === -1) random.push(r);
   }
+
   for (let i = 0; i < x; i++) {
     let block = document.createElement("div");
     let blockText = document.createTextNode(random[i] + 1);
+    let span = document.createElement('span');
     block.className = `block`;
-    // block.setAttribute("id", `block-${random[i] + 1}`);
     block.setAttribute("id", "targetBlock");
     block.setAttribute("data-source-id", `source-${random[i] + 1}`);
-    block.appendChild(blockText);
+    span.appendChild(blockText);
+    block.appendChild(span)
     block.setAttribute("draggable", true);
     divSize(block, x);
     puzzle.appendChild(block);
-    console.log(x);
   }
 
   const blockSource = document.querySelectorAll(".block");
   const blockTarget = document.querySelectorAll(".blockCible");
-
-  console.log(blockSource);
-  console.log(blockTarget);
 
   blockSource.forEach((el) => {
     el.addEventListener("dragstart", dragStartHandler);
@@ -45,11 +47,8 @@ function generatePuzzle(x) {
 
   let clicDiv;
   function dragStartHandler(e) {
-    console.log("--------dragStartHandler running");
     e.dataTransfer.setData("text", e.target.getAttribute("data-source-id"));
     clicDiv = e.target;
-    console.log(e.target);
-    console.log(clicDiv);
   }
 
   blockTarget.forEach((el) => {
@@ -59,25 +58,19 @@ function generatePuzzle(x) {
     el.addEventListener("drop", dropHandler);
   });
 
-  function dragEnterHandler(e) {
-    console.log("--------dragEnterHandler running");
-  }
+  function dragEnterHandler(e) {}
 
   function dragEndHandler(e) {}
 
   function dragOverHandler(e) {
-    console.log("--------dragOverHandler running");
     e.preventDefault();
   }
 
-  function dragLeaveHandler(e) {
-    console.log("--------dragLeaveHandler running");
-  }
+  function dragLeaveHandler(e) {}
 
   function dropHandler(e) {
     e.preventDefault();
 
-    console.log("--------dropHandler running--------");
     dragLeaveHandler(e);
 
     const dataSourceId = e.dataTransfer.getData("text");
@@ -92,15 +85,7 @@ function generatePuzzle(x) {
       source.nextSibling === clicDiv ? source : source.nextSibling;
     clicDiv.parentNode.insertBefore(source, clicDiv);
     parentA.insertBefore(clicDiv, siblingA);
-
-    console.log("---ParentA---");
-    console.log(source);
-    console.log(parentA);
-    console.log("---nodeb---");
-    console.log(dataSourceId);
-    console.log(sourceId, dataSourceId, dataTargetId);
-
-    console.log("-------- dropHandler End--------");
+    soluce(x);
   }
 }
 
@@ -115,13 +100,15 @@ function divSize(div, x) {
       "style",
       "height:var(--size-puzzle-9); width:var(--size-puzzle-9)"
     );
-  } else if (x > 9 && x <= 15 ) {
+  } else if (x > 9 && x <= 15) {
     div.setAttribute(
       "style",
       " width:var(--size-puzzle-16); height:var(--size-puzzle-16)"
     );
   } else if (x > 15) {
-    div.setAttribute("style", "width:var(--size-puzzle-25); height:var(--size-puzzle-25)"
+    div.setAttribute(
+      "style",
+      "width:var(--size-puzzle-25); height:var(--size-puzzle-25)"
     );
   }
 }
@@ -129,3 +116,36 @@ function divSize(div, x) {
 document.querySelectorAll(".btn-choice").forEach((element) => {
   element.addEventListener("click", () => generatePuzzle(element.value));
 });
+
+function soluce(x) {
+  
+  let lvl1 = ["1", "2", "3", "4", "5", "6", "7", "8"];
+  let lvl2 = ["1,", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"];
+  let lvl3 = [
+    "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21",
+    "22", "23", "24",
+  ];
+
+  let gameInProgress = [];
+  let y = 0;
+  let grill = document.querySelectorAll(".block");
+  for (let i = 0; i < grill.length; i++) {
+    y = grill[i].innerHTML;
+    gameInProgress.push(y);
+    console.log(lvl1);
+    console.log(gameInProgress);
+  }
+let finishMsg = document.getElementById('finish')
+  console.log(finishMsg);
+
+  if (JSON.stringify(lvl1) === JSON.stringify(gameInProgress)) {
+    finishMsg.style.visibility = 'visible';
+    console.log("fini");
+  } else if (JSON.stringify(lvl2) === JSON.stringify(gameInProgress)) {
+    finishMsg.style.visibility = 'visible';
+  } else if (JSON.stringify(lvl3) === JSON.stringify(gameInProgress)) {
+    finishMsg.style.visibility = 'visible';
+  }
+
+
+}

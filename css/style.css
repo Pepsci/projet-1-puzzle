@@ -9,13 +9,35 @@ body {
   height: 100vh;
 }
 
+nav {
+  position: absolute;
+  height: 100px;
+  left: 50%;
+  top: 25%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+nav ul {
+  position: relative;
+  display: flex;
+  justify-content: center;
+
+}
+
+nav ul li button {
+  width: 40px;
+  height: 40px;
+  margin: 5px;
+}
+
 .puzzle-container {
   position: relative;
   display: flex;
   flex-wrap: wrap;
   height: 400px;
   width: 400px;
-  border: 2px solid black;
+  /* border: 2px solid black; */
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -30,35 +52,37 @@ body {
 }
 
 .block {
-  background-color: darkgoldenrod;
-  border: 2px solid green;
+  position: relative;
   margin: auto;
   cursor: move;
   user-select: none;
+  background: linear-gradient(145deg, #CACCCF, #FFFFFF);
+  border-radius: 15%;
+  box-shadow: 9.91px 9.91px 15px #D9DADE, -9.91px -9.91px 15px #FFFFFF;
 }
 
 #block-0 {
-  background-color: brown;
-  border: 2px solid green;
-  margin: auto;
-  /* cursor: none; */
-}
-
-nav {
-  position: absolute;
-  height: 100px;
-  z-index: 1;
-}
-
-nav ul {
   position: relative;
-  display: flex;
-  justify-content: center;
-  top: 5rem;
+  background: linear-gradient(145deg, #B94800, #F36000);
+  border-radius: 15%;
+  box-shadow: inset 9.91px 9.91px 15px #C34C00, inset -9.91px -9.91px 15px #E95C00;
+  margin: auto;
 }
 
-nav ul li button {
-  width: 40px;
-  height: 40px;
-  margin: 5px;
+.block span, #block-0 span{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
+
+#finish{
+  visibility: hidden;
+  text-align: center;
+  margin-top: 3rem;
+  font-size: 2em;
+}
+
+/* @media screen {
+  
+} */
