@@ -128,7 +128,7 @@ function soluce(x) {
 
   let gameInProgress = [];
   let y = 0;
-  let grill = document.querySelectorAll(".block");
+  let grill = document.querySelectorAll(".block span");
   for (let i = 0; i < grill.length; i++) {
     y = grill[i].innerHTML;
     gameInProgress.push(y);
